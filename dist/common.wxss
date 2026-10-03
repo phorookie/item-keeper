@@ -1,1 +1,0 @@
-.tag{background:var(--accent-soft);border-radius:100rpx;color:var(--accent);display:inline-block;font-size:24rpx;padding:10rpx 24rpx}.tag__close{margin-left:4rpx;opacity:.7}

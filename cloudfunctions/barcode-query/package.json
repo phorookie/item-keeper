@@ -1,0 +1,9 @@
+{
+  "name": "barcode-query",
+  "version": "1.0.0",
+  "description": "条码查询云函数，支持缓存和第三方API调用",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

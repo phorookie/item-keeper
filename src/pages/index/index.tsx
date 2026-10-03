@@ -5,6 +5,7 @@ import { itemStore } from '../../store/itemStore'
 import ItemCard from '../../components/ItemCard'
 import Empty from '../../components/Empty'
 import { Item } from '../../types/item'
+import { scanAndQuery } from '../../utils/barcode'
 import './index.scss'
 
 export default function Index() {
@@ -51,6 +52,43 @@ export default function Index() {
     Taro.navigateTo({ url: '/pages/add/index' })
   }
 
+  const handleScan = async () => {
+    const { barcode, product } = await scanAndQuery()
+    if (!barcode) return
+
+    // 检查本地是否已有该条码的物品
+    const existing = items.find(i => i.images?.length === 0 && i.name === product?.name)
+    if (existing) {
+      Taro.showModal({
+        title: '已添加过',
+        content: `「${existing.name}」已在你的物品库中`,
+        confirmText: '查看详情',
+        success: res => {
+          if (res.confirm) {
+            Taro.navigateTo({ url: `/pages/detail/index?id=${existing.id}` })
+          }
+        },
+      })
+      return
+    }
+
+    // 跳转到添加页，带上扫码结果
+    const params = new URLSearchParams()
+    params.set('barcode', barcode)
+    if (product) {
+      params.set('name', product.name)
+      params.set('brand', product.brand || '')
+      params.set('category', product.category || '')
+      params.set('subCategory', product.subCategory || '')
+      params.set('image', product.image || '')
+      params.set('shelfLife', product.shelfLife || '')
+      params.set('shelfLifeMonths', String(product.shelfLifeMonths || 0))
+      params.set('spec', product.spec || '')
+      params.set('tags', product.tags?.join(',') || '')
+    }
+    Taro.navigateTo({ url: `/pages/add/index?${params.toString()}` })
+  }
+
   return (
     <View className='home'>
       <View className='home__greeting'>
@@ -73,6 +111,9 @@ export default function Index() {
           }}
           confirmType='search'
         />
+        <View className='home__search-scan' onClick={handleScan}>
+          <Text className='home__search-scan-icon'>⌖</Text>
+        </View>
         {searchText && (
           <Text
             className='home__search-cancel'

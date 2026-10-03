@@ -3,14 +3,16 @@ import { View, Text, Input, Picker, Textarea, ScrollView, Image } from '@tarojs/
 import Taro, { useRouter } from '@tarojs/taro'
 import { itemStore, categories, presetTags } from '../../store/itemStore'
 import Tag from '../../components/Tag'
-import { today, shelfLifeOptions } from '../../utils/date'
+import { today, shelfLifeOptions, parseShelfLife } from '../../utils/date'
 import { Item } from '../../types/item'
+import { scanAndQuery, matchShelfLifeIndex } from '../../utils/barcode'
 import './index.scss'
 
 export default function Add() {
   const router = useRouter()
   const editId = router.params.id
   const isEdit = !!editId
+  const scanParams = router.params
 
   const [name, setName] = useState('')
   const [categoryIndex, setCategoryIndex] = useState(0)
@@ -26,6 +28,9 @@ export default function Add() {
   // 标签
   const [tags, setTags] = useState<string[]>([])
   const [note, setNote] = useState('')
+  // 条码
+  const [barcode, setBarcode] = useState('')
+  const [fromScan, setFromScan] = useState(false)
 
   // 自动计算的到期日
   const calculatedExpire = useMemo(() => {
@@ -62,8 +67,46 @@ export default function Add() {
         const slIdx = shelfLifeOptions.findIndex(s => s.label === item.shelfLife)
         if (slIdx >= 0) setShelfLifeIndex(slIdx)
       }
+    } else if (scanParams.barcode) {
+      // 从扫码跳转过来，自动填充
+      setFromScan(true)
+      setBarcode(scanParams.barcode)
+
+      if (scanParams.name) {
+        setName(scanParams.name)
+      }
+      if (scanParams.brand) {
+        setBrand(scanParams.brand)
+      }
+      if (scanParams.image) {
+        setImages([scanParams.image])
+      }
+      if (scanParams.price) {
+        setPrice(scanParams.price)
+      }
+
+      // 智能匹配保质期
+      const slMonths = Number(scanParams.shelfLifeMonths) || 0
+      if (slMonths > 0) {
+        const slIdx = matchShelfLifeIndex(slMonths)
+        if (slIdx >= 0) setShelfLifeIndex(slIdx)
+      }
+
+      // 智能匹配分类（已经匹配好的标准分类）
+      if (scanParams.category) {
+        const catIdx = categories.findIndex(c => c.name === scanParams.category)
+        if (catIdx >= 0) setCategoryIndex(catIdx)
+      }
+
+      // 自动添加推荐标签
+      if (scanParams.tags) {
+        const tagList = scanParams.tags.split(',').filter(Boolean)
+        if (tagList.length > 0) {
+          setTags(tagList)
+        }
+      }
     }
-  }, [editId, isEdit])
+  }, [editId, isEdit, scanParams])
 
   const addTag = (tag: string) => {
     if (tag && !tags.includes(tag)) {
@@ -86,6 +129,52 @@ export default function Add() {
         }
       },
     })
+  }
+
+  const handleScan = async () => {
+    Taro.showLoading({ title: '扫描中...' })
+    const { barcode: newBarcode, product } = await scanAndQuery()
+    Taro.hideLoading()
+
+    if (!newBarcode) return
+
+    setBarcode(newBarcode)
+    setFromScan(true)
+
+    if (product) {
+      // 自动填充信息
+      if (product.name) setName(product.name)
+      if (product.brand) setBrand(product.brand)
+      if (product.price) setPrice(String(product.price))
+      if (product.image) setImages(prev => prev.length < 3 ? [product.image, ...prev].slice(0, 3) : prev)
+
+      // 智能匹配保质期（按月数找最接近的选项）
+      if (product.shelfLifeMonths && product.shelfLifeMonths > 0) {
+        const slIdx = matchShelfLifeIndex(product.shelfLifeMonths)
+        if (slIdx >= 0) setShelfLifeIndex(slIdx)
+      }
+
+      // 智能匹配分类（barcode.ts 里已经匹配好了，直接用）
+      if (product.category) {
+        const catIdx = categories.findIndex(c => c.name === product.category)
+        if (catIdx >= 0) setCategoryIndex(catIdx)
+      }
+
+      // 自动添加推荐标签
+      if (product.tags && product.tags.length > 0) {
+        setTags(prev => {
+          const newTags = [...prev]
+          product.tags.forEach(tag => {
+            if (!newTags.includes(tag)) newTags.push(tag)
+          })
+          return newTags
+        })
+      }
+
+      Taro.showToast({ title: '已自动填充', icon: 'success' })
+    } else {
+      Taro.showToast({ title: '未找到商品信息', icon: 'none' })
+    }
   }
 
   const handleChooseImage = () => {
@@ -194,13 +283,19 @@ export default function Add() {
 
           <View className='add__field'>
             <Text className='add__field-label'>名称</Text>
-            <Input
-              className='add__field-input'
-              placeholder='请输入物品名称'
-              placeholderClass='add__field-placeholder'
-              value={name}
-              onInput={e => setName(e.detail.value)}
-            />
+            <View className='add__field-input-wrap'>
+              <Input
+                className='add__field-input'
+                placeholder='请输入物品名称'
+                placeholderClass='add__field-placeholder'
+                value={name}
+                onInput={e => setName(e.detail.value)}
+              />
+              <View className='add__field-scan' onClick={handleScan}>
+                <Text className='add__field-scan-icon'>⌖</Text>
+                <Text className='add__field-scan-text'>扫码</Text>
+              </View>
+            </View>
           </View>
 
           <Picker

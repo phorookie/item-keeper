@@ -51,8 +51,28 @@
     color: var(--text-primary);
   }
 
+  &__search-scan {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--border-light);
+    margin-left: 8px;
+    padding-left: 16px;
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+
+  &__search-scan-icon {
+    font-size: 36px;
+    color: var(--text-secondary);
+  }
+
   &__search-placeholder {
-    color: var(--text-tertiary);
+    color: var(--text-disabled);
   }
 
   &__search-cancel {

@@ -1,4 +1,4 @@
-import { Component, useEffect } from 'react'
+import { Component } from 'react'
 import './app.scss'
 import { itemStore } from './store/itemStore'
 
