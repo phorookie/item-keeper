@@ -1,0 +1,64 @@
+/* ===== 全局设计系统 ===== */
+
+page {
+  /* Surface */
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --surface-alt: #F3F2EF;
+
+  /* Text - warm gray scale */
+  --text-primary: #1C1B1A;
+  --text-secondary: #6B6966;
+  --text-tertiary: #9A9793;
+  --text-disabled: #C4C1BC;
+
+  /* Accent - soft sage */
+  --accent: #5B8C6F;
+  --accent-soft: #E8F0EB;
+  --accent-hover: #4A755D;
+
+  /* Semantic */
+  --warning: #B8864A;
+  --warning-soft: #F7EEE1;
+
+  --danger: #B85C4A;
+  --danger-soft: #F7E5E1;
+
+  /* Border - extremely subtle */
+  --border: #E8E6E2;
+  --border-light: #F0EEEB;
+
+  /* Radius */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+
+  background-color: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 28px;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+view, text {
+  box-sizing: border-box;
+}
+
+/* 通用工具类 */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-center { align-items: center; justify-content: center; }
+.flex-between { justify-content: space-between; }
+.flex-1 { flex: 1; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-warning { color: var(--warning); }
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

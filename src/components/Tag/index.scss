@@ -1,0 +1,13 @@
+.tag {
+  display: inline-block;
+  font-size: 24px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 10px 24px;
+  border-radius: 100px;
+
+  &__close {
+    margin-left: 4px;
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "item-keeper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "物品管家 - 个人物品管理小程序",
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "sass"
+  },
+  "scripts": {
+    "build:weapp": "taro build --type weapp",
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "build:h5": "taro build --type h5",
+    "dev:h5": "npm run build:h5 -- --watch",
+    "build:rn": "taro build --type rn",
+    "dev:rn": "npm run build:rn -- --watch"
+  },
+  "browserslist": [
+    "last 3 versions",
+    "Android >= 4.1",
+    "ios >= 8"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.7.7",
+    "@tarojs/components": "3.6.30",
+    "@tarojs/helper": "3.6.30",
+    "@tarojs/plugin-framework-react": "3.6.30",
+    "@tarojs/plugin-platform-h5": "3.6.30",
+    "@tarojs/plugin-platform-weapp": "3.6.30",
+    "@tarojs/react": "3.6.30",
+    "@tarojs/runtime": "3.6.30",
+    "@tarojs/shared": "3.6.30",
+    "@tarojs/taro": "3.6.30",
+    "react": "18.0.0",
+    "react-dom": "18.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@tarojs/cli": "3.6.30",
+    "@tarojs/webpack5-runner": "3.6.30",
+    "@types/react": "^18.0.0",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "3.6.30",
+    "sass": "^1.49.9",
+    "sass-loader": "^12.6.0",
+    "typescript": "^4.1.0",
+    "webpack": "^5.78.0"
+  }
+}

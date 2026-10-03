@@ -1,0 +1,16 @@
+.empty {
+  padding: 120px 0;
+  text-align: center;
+
+  &__icon {
+    display: block;
+    font-size: 96px;
+    margin-bottom: 32px;
+    opacity: 0.25;
+  }
+
+  &__text {
+    font-size: 28px;
+    color: var(--text-tertiary);
+  }
+}
