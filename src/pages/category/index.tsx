@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { View, Text, ScrollView, Image } from '@tarojs/components'
-import Taro, { useDidShow } from '@tarojs/taro'
+import Taro, { useRouter, useDidShow } from '@tarojs/taro'
 import { itemStore, categories } from '../../store/itemStore'
 import ItemCard from '../../components/ItemCard'
 import Empty from '../../components/Empty'
@@ -19,6 +19,7 @@ const categoryIcons: Record<string, string> = {
 }
 
 export default function Category() {
+  const router = useRouter()
   const [activeCategory, setActiveCategory] = useState('')
   const [items, setItems] = useState<Item[]>([])
   const [categoryStats, setCategoryStats] = useState<Record<string, number>>({})
@@ -29,6 +30,10 @@ export default function Category() {
 
   useEffect(() => {
     loadData()
+    // 从首页跳转过来时，自动选中对应分类
+    if (router.params.cat) {
+      setActiveCategory(decodeURIComponent(router.params.cat))
+    }
   }, [])
 
   const loadData = () => {

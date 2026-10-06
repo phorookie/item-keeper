@@ -1,12 +1,23 @@
 import { useState, useEffect, useMemo } from 'react'
 import { View, Text, Input, ScrollView, Image } from '@tarojs/components'
 import Taro, { useDidShow } from '@tarojs/taro'
-import { itemStore } from '../../store/itemStore'
+import { itemStore, categories } from '../../store/itemStore'
 import ItemCard from '../../components/ItemCard'
 import Empty from '../../components/Empty'
 import { Item } from '../../types/item'
 import { scanAndQuery } from '../../utils/barcode'
 import './index.scss'
+
+// 分类图标
+const categoryIcons: Record<string, string> = {
+  '护肤品': '🧴',
+  '保健品': '💊',
+  '食品': '🍎',
+  '日用品': '🧺',
+  '衣物鞋包': '👕',
+  '数码家电': '📱',
+  '其他': '📦',
+}
 
 export default function Index() {
   const [searchText, setSearchText] = useState('')
@@ -32,6 +43,15 @@ export default function Index() {
     [items]
   )
 
+  // 分类统计
+  const categoryStats = useMemo(() => {
+    const stats: Record<string, number> = {}
+    items.forEach(item => {
+      stats[item.category] = (stats[item.category] || 0) + 1
+    })
+    return stats
+  }, [items])
+
   const filteredItems = useMemo(() => {
     if (!searchText.trim()) return items
     const kw = searchText.toLowerCase()
@@ -50,6 +70,14 @@ export default function Index() {
 
   const goToAdd = () => {
     Taro.navigateTo({ url: '/pages/add/index' })
+  }
+
+  const goToCategory = () => {
+    Taro.navigateTo({ url: '/pages/category/index' })
+  }
+
+  const goToProfile = () => {
+    Taro.navigateTo({ url: '/pages/profile/index' })
   }
 
   const handleScan = async () => {
@@ -92,8 +120,13 @@ export default function Index() {
   return (
     <View className='home'>
       <View className='home__greeting'>
-        <Text className='home__hello'>晚上好</Text>
-        <Text className='home__title'>你的物品</Text>
+        <View>
+          <Text className='home__hello'>晚上好</Text>
+          <Text className='home__title'>你的物品</Text>
+        </View>
+        <View className='home__profile-btn' onClick={goToProfile}>
+          <Text className='home__profile-icon'>👤</Text>
+        </View>
       </View>
 
       {/* 搜索栏 */}
@@ -125,6 +158,32 @@ export default function Index() {
             取消
           </Text>
         )}
+      </View>
+
+      {/* 分类快捷入口 */}
+      <View className='home__categories'>
+        <ScrollView scrollX className='home__categories-scroll' showScrollbar={false}>
+          {categories.map(cat => (
+            <View
+              key={cat.name}
+              className='home__cat-item'
+              onClick={() => Taro.navigateTo({ url: `/pages/category/index?cat=${encodeURIComponent(cat.name)}` })}
+            >
+              <View className='home__cat-icon'>
+                <Text>{categoryIcons[cat.name] || '📦'}</Text>
+              </View>
+              <Text className='home__cat-name'>{cat.name}</Text>
+              <Text className='home__cat-count'>{categoryStats[cat.name] || 0}</Text>
+            </View>
+          ))}
+          <View className='home__cat-item home__cat-item--more' onClick={goToCategory}>
+            <View className='home__cat-icon home__cat-icon--more'>
+              <Text>›</Text>
+            </View>
+            <Text className='home__cat-name'>更多</Text>
+            <Text className='home__cat-count'>{items.length}</Text>
+          </View>
+        </ScrollView>
       </View>
 
       <ScrollView scrollY className='home__content'>

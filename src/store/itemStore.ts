@@ -303,11 +303,35 @@ class ItemStore {
   getStats() {
     const active = this.items.filter(i => i.status === 'active')
     const expiring = active.filter(i => i.isExpiringSoon)
-    const categories = new Set(active.map(i => i.category))
+    const expired = this.items.filter(i => i.status === 'expired')
+    const used = this.items.filter(i => i.status === 'used')
+    const categorySet = new Set(active.map(i => i.category))
+
+    // 总花费
+    const totalSpent = active.reduce((sum, i) => sum + (i.price || 0), 0)
+
+    // 过期浪费的金额
+    const wastedMoney = expired.reduce((sum, i) => sum + (i.price || 0), 0)
+
+    // 按分类统计
+    const byCategory: Record<string, { count: number; spent: number }> = {}
+    active.forEach(item => {
+      if (!byCategory[item.category]) {
+        byCategory[item.category] = { count: 0, spent: 0 }
+      }
+      byCategory[item.category].count++
+      byCategory[item.category].spent += item.price || 0
+    })
+
     return {
       total: active.length,
       expiring: expiring.length,
-      categories: categories.size,
+      expired: expired.length,
+      used: used.length,
+      categories: categorySet.size,
+      totalSpent,
+      wastedMoney,
+      byCategory,
     }
   }
 }

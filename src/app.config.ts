@@ -4,6 +4,8 @@ export default defineAppConfig({
     'pages/category/index',
     'pages/detail/index',
     'pages/add/index',
+    'pages/profile/index',
+    'pages/reminder/index',
   ],
   window: {
     backgroundTextStyle: 'light',

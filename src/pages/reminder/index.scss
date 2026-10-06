@@ -1,0 +1,120 @@
+.reminder {
+  min-height: 100vh;
+  background: var(--bg);
+
+  &__scroll {
+    height: 100vh;
+    padding: 0 40px 120px;
+  }
+
+  &__section {
+    margin-bottom: 40px;
+
+    &:first-child {
+      padding-top: 40px;
+    }
+  }
+
+  &__section-title {
+    display: block;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+
+  &__card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px;
+  }
+
+  &__item-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex: 1;
+  }
+
+  &__item-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+  }
+
+  &__item-name {
+    display: block;
+    font-size: 28px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  &__item-desc {
+    display: block;
+    font-size: 22px;
+    color: var(--text-tertiary);
+  }
+
+  /* 天数选择 */
+  &__day-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px;
+    border-bottom: 1px solid var(--border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:active {
+      background: var(--surface-alt);
+    }
+
+    &--active {
+      .reminder__day-text {
+        color: var(--accent);
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__day-text {
+    font-size: 28px;
+    color: var(--text-primary);
+  }
+
+  &__day-check {
+    font-size: 28px;
+    color: var(--accent);
+  }
+
+  /* 提示 */
+  &__tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px 28px;
+    background: var(--surface-alt);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+  }
+
+  &__tip-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  &__tip-text {
+    flex: 1;
+    font-size: 24px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+}

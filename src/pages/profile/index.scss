@@ -1,0 +1,262 @@
+.profile {
+  min-height: 100vh;
+  background: var(--bg);
+
+  &--loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+  }
+
+  &__scroll {
+    height: 100vh;
+    padding: 0 40px 120px;
+  }
+
+  &__header {
+    padding: 60px 0 48px;
+  }
+
+  &__title {
+    display: block;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+    letter-spacing: -1px;
+  }
+
+  &__stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  &__stat-card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 32px 28px;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      margin-bottom: 0;
+    }
+  }
+
+  &__stat-number {
+    display: block;
+    font-size: 44px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+
+    &--warning {
+      color: var(--warning);
+    }
+
+    &--muted {
+      color: var(--text-tertiary);
+    }
+  }
+
+  &__stat-label {
+    display: block;
+    font-size: 24px;
+    color: var(--text-tertiary);
+  }
+
+  &__section {
+    margin-bottom: 48px;
+  }
+
+  &__section-title {
+    display: block;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+  }
+
+  &__spent-card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 8px 0;
+  }
+
+  &__spent-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 28px;
+    border-bottom: 1px solid var(--border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__spent-label {
+    font-size: 28px;
+    color: var(--text-secondary);
+  }
+
+  &__spent-value {
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text-primary);
+
+    &--danger {
+      color: var(--warning);
+    }
+  }
+
+  &__category-list {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    margin-bottom: 32px;
+  }
+
+  &__cat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__cat-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__cat-icon {
+    font-size: 32px;
+  }
+
+  &__cat-name {
+    font-size: 28px;
+    color: var(--text-primary);
+  }
+
+  &__cat-count {
+    font-size: 24px;
+    color: var(--text-tertiary);
+  }
+
+  &__cat-right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__cat-spent {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* 条形图 */
+  &__chart {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 28px;
+  }
+
+  &__chart-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__chart-label {
+    font-size: 28px;
+    width: 40px;
+    flex-shrink: 0;
+  }
+
+  &__chart-track {
+    flex: 1;
+    height: 16px;
+    background: var(--surface-alt);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  &__chart-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+  }
+
+  &__chart-value {
+    font-size: 24px;
+    color: var(--text-tertiary);
+    width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* 设置列表 */
+  &__settings {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+  }
+
+  &__setting-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 28px;
+    border-bottom: 1px solid var(--border-light);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:active {
+      background: var(--surface-alt);
+    }
+  }
+
+  &__setting-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+
+  &__setting-name {
+    flex: 1;
+    font-size: 28px;
+    color: var(--text-primary);
+
+    &--danger {
+      color: var(--warning);
+    }
+  }
+
+  &__setting-arrow {
+    font-size: 32px;
+    color: var(--text-tertiary);
+  }
+
+  &__footer {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  &__footer-text {
+    font-size: 22px;
+    color: var(--text-disabled);
+  }
+}

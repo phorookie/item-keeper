@@ -5,7 +5,28 @@
   position: relative;
 
   &__greeting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 60px 0 40px;
+  }
+
+  &__profile-btn {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-alt);
+    border-radius: 50%;
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+
+  &__profile-icon {
+    font-size: 32px;
   }
 
   &__hello {
@@ -73,6 +94,57 @@
 
   &__search-placeholder {
     color: var(--text-disabled);
+  }
+
+  /* 分类快捷入口 */
+  &__categories {
+    margin-bottom: 48px;
+  }
+
+  &__categories-scroll {
+    white-space: nowrap;
+  }
+
+  &__cat-item {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px;
+    margin-right: 24px;
+
+    &:active {
+      opacity: 0.6;
+    }
+  }
+
+  &__cat-icon {
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-alt);
+    border-radius: 28px;
+    font-size: 40px;
+    margin-bottom: 16px;
+
+    &--more {
+      background: var(--surface);
+      border: 2px dashed var(--border-light);
+      font-size: 48px;
+      color: var(--text-tertiary);
+    }
+  }
+
+  &__cat-name {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  &__cat-count {
+    font-size: 22px;
+    color: var(--text-tertiary);
   }
 
   &__search-cancel {
